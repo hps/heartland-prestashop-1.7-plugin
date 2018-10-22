@@ -1,0 +1,84 @@
+/**
+* 2007-2018 PrestaShop
+*
+* NOTICE OF LICENSE
+*
+* This source file is subject to the Academic Free License (AFL 3.0)
+* that is bundled with this package in the file LICENSE.txt.
+* It is also available through the world-wide-web at this URL:
+* http://opensource.org/licenses/afl-3.0.php
+* If you did not receive a copy of the license and are unable to
+* obtain it through the world-wide-web, please send an email
+* to license@prestashop.com so we can send you a copy immediately.
+*
+* DISCLAIMER
+*
+* Do not edit or add to this file if you wish to upgrade PrestaShop to newer
+* versions in the future. If you wish to customize PrestaShop for your
+* needs please refer to http://www.prestashop.com for more information.
+*
+*  @author    PrestaShop SA <contact@prestashop.com>
+*  @copyright 2007-2018 PrestaShop SA
+*  @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+*  International Registered Trademark & Property of PrestaShop SA
+*
+* Don't forget to prefix your containers with your own identifier
+* to avoid any conflicts with others containers.
+*/
+
+.secureSubmit-header img{
+    width:135px;
+    height:auto;
+}
+
+.btn.btn-primary.heartland{
+    background-color: #c71b24;
+    border-color: #c71b24;
+}
+
+#heartland-payment-logo{
+    border-right: 1px solid #a7a8aa;
+    padding-right: 16px;
+}
+
+.gray-header{
+    padding-left: 10px;
+    color: #54575a;
+    font-size: 25px;
+    vertical-align: middle;
+}
+
+.heartland-video-wrapper {
+	position: relative;
+	padding-bottom: 56.25%; /* 16:9 */
+	padding-top: 25px;
+	height: 0;
+}
+
+.heartland-video-wrapper iframe {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.heartland.icon.icon-check{
+    color: #4caf50;
+}
+
+.heartland.icon.icon-remove{
+    color: #FF5722;
+}
+
+.accepted-cards{
+    width:400px;
+    height:50;
+}
+
+@media (max-width:1099px) {
+	.accepted-cards {
+		width:305px;
+		height:39px;
+    }
+}
