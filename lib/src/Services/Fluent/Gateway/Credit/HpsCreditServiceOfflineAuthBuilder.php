@@ -121,19 +121,19 @@ class HpsCreditServiceOfflineAuthBuilder extends HpsBuilderAbstract
                 $this->cardPresent,
                 $this->readerPresent
             ));
-        } else if ($this->token != null) {
+        } elseif ($this->token != null) {
             $cardData->appendChild($this->service->_hydrateTokenData(
                 $this->token,
                 $xml,
                 $this->cardPresent,
                 $this->readerPresent
             ));
-        } else if ($this->trackData != null) {
+        } elseif ($this->trackData != null) {
             $cardData->appendChild($this->service->_hydrateTrackData($this->trackData, $xml));
             if ($this->trackData->encryptionData != null) {
                 $cardData->appendChild($this->service->_hydrateEncryptionData($this->trackData->encryptionData));
             }
-        } else if ($this->paymentData != null) {
+        } elseif ($this->paymentData != null) {
             $manualEntry = $xml->createElement('hps:ManualEntry');
             $manualEntry->appendChild($xml->createElement('hps:CardNbr', $this->paymentData->applicationPrimaryAccountNumber));
             $expDate = (string)$this->paymentData->applicationExpirationDate;

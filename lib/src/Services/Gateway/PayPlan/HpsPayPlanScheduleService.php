@@ -2,7 +2,6 @@
 
 class HpsPayPlanScheduleService extends HpsRestGatewayService
 {
-
     public function add(HpsPayPlanSchedule $schedule)
     {
         $data = $schedule->getEditableFieldsWithValues();
@@ -16,7 +15,7 @@ class HpsPayPlanScheduleService extends HpsRestGatewayService
     }
     public function edit(HpsPayPlanSchedule $schedule)
     {
-        $data = $schedule->getEditableFieldsWithValues( $schedule );
+        $data = $schedule->getEditableFieldsWithValues($schedule);
         $result = $this->doRequest($data, array(
             'verb'     => 'PUT',
             'endpoint' => 'schedules/'.$schedule->scheduleKey,

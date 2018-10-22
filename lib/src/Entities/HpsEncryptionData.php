@@ -21,7 +21,7 @@ class HpsEncryptionData
      **/
     public $ktb                  = null;
 
-    /** 
+    /**
      * This is required in certain encryption versions;
      * the Key Serial Number (KSN) used at the point of sale.
      *

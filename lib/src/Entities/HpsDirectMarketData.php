@@ -11,12 +11,12 @@ class HpsDirectMarketData
         $this->invoiceNumber = $invoiceNumber;
 
         if ($shipMonth == null) {
-          $shipMonth = date('m');
+            $shipMonth = date('m');
         }
         $this->shipMonth = $shipMonth;
 
         if ($shipDay == null) {
-          $shipDay = date('d');
+            $shipDay = date('d');
         }
         $this->shipDay = $shipDay;
     }

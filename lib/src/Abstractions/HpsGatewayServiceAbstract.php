@@ -97,10 +97,10 @@ abstract class HpsGatewayServiceAbstract
 
             if ($curlError == 35) { //CURLE_SSL_CONNECT_ERROR
                 $err_msg = 'PHP-SDK cURL TLS 1.2 handshake failed. If you have any questions, please contact Specialty Products Team at 866.802.9753.';
-                if ( extension_loaded('openssl') && OPENSSL_VERSION_NUMBER <  self::MIN_OPENSSL_VER ) { // then you don't have openSSL 1.0.1c or greater
+                if (extension_loaded('openssl') && OPENSSL_VERSION_NUMBER <  self::MIN_OPENSSL_VER) { // then you don't have openSSL 1.0.1c or greater
                     $err_msg .= 'Your current version of OpenSSL is ' . OPENSSL_VERSION_TEXT . 'You do not have the minimum version of OpenSSL 1.0.1c which is required for curl to use TLS 1.2 handshake.';
                 }
-                throw new HpsGatewayException($curlError,$err_msg);
+                throw new HpsGatewayException($curlError, $err_msg);
             }
             return $this->processResponse($curlResponse, $curlInfo, $curlError);
         } catch (Exception $e) {
@@ -122,7 +122,8 @@ abstract class HpsGatewayServiceAbstract
                 $this->_config->password == null ||
                 $this->_config->licenseId == -1 ||
                 $this->_config->deviceId == -1 ||
-                $this->_config->siteId == -1)
+                $this->_config->siteId == -1
+        )
         ) {
             return true;
         }

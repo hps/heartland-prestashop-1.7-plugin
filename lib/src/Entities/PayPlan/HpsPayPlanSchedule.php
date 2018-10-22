@@ -89,12 +89,13 @@ class HpsPayPlanSchedule extends HpsPayPlanResourceAbstract
     /** @var string|null */
     public $description           = null;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->emailReceipt = 'Never';
         $this->emailAdvanceNotice = 'No';
     }
 
-    public static function getEditableFields( HpsPayPlanSchedule $schedule = null  )
+    public static function getEditableFields(HpsPayPlanSchedule $schedule = null)
     {
         $editableFields = array(
             'scheduleName',
@@ -112,12 +113,12 @@ class HpsPayPlanSchedule extends HpsPayPlanResourceAbstract
             'invoiceNbr',
             'description',
         );
-        if ($schedule->scheduleStarted === 'true'){
+        if ($schedule->scheduleStarted === 'true') {
             $editableFields[] = 'cancellationDate';
             $editableFields[] = 'nextProcessingDate';
         }
         // Only editable when scheduleStarted = false
-        else{
+        else {
             $editableFields[] = 'scheduleIdentifier';
             $editableFields[] = 'startDate';
             $editableFields[] = 'frequency';
@@ -190,8 +191,9 @@ class HpsPayPlanSchedule extends HpsPayPlanResourceAbstract
     }
 
     // Needs to be implemented to get name of child class
-    public function getEditableFieldsWithValues($params = null,$class = 'HpsPayPlanSchedule'){
-        if ($params===null){
+    public function getEditableFieldsWithValues($params = null, $class = 'HpsPayPlanSchedule')
+    {
+        if ($params===null) {
             $params=$this;
         }
         return parent::getEditableFieldsWithValues($class, $params);

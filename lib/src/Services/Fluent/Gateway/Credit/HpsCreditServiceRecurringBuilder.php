@@ -81,11 +81,11 @@ class HpsCreditServiceRecurringBuilder extends HpsBuilderAbstract
             $cardData = $xml->createElement('hps:CardData');
             $cardData->appendChild($this->service->_hydrateManualEntry($this->card, $xml));
             $hpsBlock1->appendChild($cardData);
-        } else if ($this->token != null) {
+        } elseif ($this->token != null) {
             $cardData = $xml->createElement('hps:CardData');
             $cardData->appendChild($this->service->_hydrateTokenData($this->token, $xml));
             $hpsBlock1->appendChild($cardData);
-        } else if ($this->paymentMethodKey != null) {
+        } elseif ($this->paymentMethodKey != null) {
             $hpsBlock1->appendChild($xml->createElement('hps:PaymentMethodKey', $this->paymentMethodKey));
         }
 

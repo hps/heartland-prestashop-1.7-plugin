@@ -1,28 +1,4 @@
 <?php
-/**
-* 2007-2018 PrestaShop
-*
-* NOTICE OF LICENSE
-*
-* This source file is subject to the Academic Free License (AFL 3.0)
-* that is bundled with this package in the file LICENSE.txt.
-* It is also available through the world-wide-web at this URL:
-* http://opensource.org/licenses/afl-3.0.php
-* If you did not receive a copy of the license and are unable to
-* obtain it through the world-wide-web, please send an email
-* to license@prestashop.com so we can send you a copy immediately.
-*
-* DISCLAIMER
-*
-* Do not edit or add to this file if you wish to upgrade PrestaShop to newer
-* versions in the future. If you wish to customize PrestaShop for your
-* needs please refer to http://www.prestashop.com for more information.
-*
-*  @author    PrestaShop SA <contact@prestashop.com>
-*  @copyright 2007-2018 PrestaShop SA
-*  @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
-*  International Registered Trademark & Property of PrestaShop SA
-*/
 
 use PrestaShop\PrestaShop\Core\Payment\PaymentOption;
 
@@ -66,16 +42,14 @@ class SecureSubmit extends PaymentModule
      */
     public function install()
     {
-        if (extension_loaded('curl') == false)
-        {
+        if (extension_loaded('curl') == false) {
             $this->_errors[] = $this->l('You have to enable the cURL extension on your server to install this module');
             return false;
         }
 
         $iso_code = Country::getIsoById(Configuration::get('PS_COUNTRY_DEFAULT'));
 
-        if (in_array($iso_code, $this->limited_countries) == false)
-        {
+        if (in_array($iso_code, $this->limited_countries) == false) {
             $this->_errors[] = $this->l('This module is not available in your country');
             return false;
         }
@@ -94,16 +68,15 @@ class SecureSubmit extends PaymentModule
             Configuration::updateValue('hps_fraud_message', 'Please contact us to complete the transaction.') &&
             Configuration::updateValue('hps_fraud_velocity_attempts', 3) &&
             Configuration::updateValue('hps_fraud_velocity_timeout', 10);
-    
     }
 
     public function uninstall()
     {
-        return parent::uninstall() && 
-		Configuration::deleteByName('hps_mode') && 
-		Configuration::deleteByName('hps_public_key_test') && 
-		Configuration::deleteByName('hps_secret_key_test') && 
-		Configuration::deleteByName('hps_public_key_live') && 
+        return parent::uninstall() &&
+        Configuration::deleteByName('hps_mode') &&
+        Configuration::deleteByName('hps_public_key_test') &&
+        Configuration::deleteByName('hps_secret_key_test') &&
+        Configuration::deleteByName('hps_public_key_live') &&
         Configuration::deleteByName('hps_secret_key_live') &&
         Configuration::deleteByName('hps_enable_fraud') &&
         Configuration::deleteByName('hps_fraud_message') &&
@@ -126,7 +99,7 @@ class SecureSubmit extends PaymentModule
         $requirements = $this->checkRequirements();
         $requirements_output = '';
 
-        $requirements_output .= 
+        $requirements_output .=
             '<div class="securesubmit-module-wrapper">
                 '.(Tools::isSubmit('SubmitSecureSubmit') ? '<div class="conf confirmation">'.$this->l('Settings successfully saved').'<img src="http://www.prestashop.com/modules/'.$this->name.'.png?api_user='.urlencode($_SERVER['HTTP_HOST']).'" style="display: none;" /></div>' : '').'
                 <section class="technical-checks">
@@ -134,14 +107,16 @@ class SecureSubmit extends PaymentModule
                     <div class="'.($requirements['result'] ? 'conf">'.$this->l('Good news! Everything looks to be in order. Start accepting credit card payments now.') :
                     'warn">'.$this->l('Unfortunately, at least one issue is preventing you from using SecureSubmit. Please fix the issue and reload this page.')).'</div><br/>
                     <table cellspacing="0" cellpadding="0" class="securesubmit-technical">';
-                    foreach ($requirements as $k => $requirement)
-                        if ($k != 'result')
-                            $requirements_output .= '
+        foreach ($requirements as $k => $requirement) {
+            if ($k != 'result') {
+                $requirements_output .= '
                             <tr>
                                 <td style="vertical-align:top;"><span class="heartland icon icon-'.($requirement['result'] ? 'check' : 'remove').'"></span></td>
                                 <td>'.$requirement['name'].(!$requirement['result'] && isset($requirement['resolution']) ? '<br />'.Tools::safeOutput($requirement['resolution'], true) : '').'</td>
                             </tr>';
-                    $requirements_output .= '
+            }
+        }
+        $requirements_output .= '
                     </table>
                 </section>
             <br />';
@@ -329,7 +304,6 @@ class SecureSubmit extends PaymentModule
         foreach (array_keys($form_values) as $key) {
             Configuration::updateValue($key, Tools::getValue($key));
         }
-
     }
 
     /**
@@ -343,25 +317,27 @@ class SecureSubmit extends PaymentModule
     }
 
     /**
-	 * Load Javascripts and CSS related to the SecureSubmit's module
-	 * during the checkout process only.
-	 *
-	 * @return string SecureSubmit's JS dependencies
-	 */
-	public function hookHeader()
-	{
-		if (!in_array($this->context->currency->iso_code, $this->limited_currencies))
-			return;
+     * Load Javascripts and CSS related to the SecureSubmit's module
+     * during the checkout process only.
+     *
+     * @return string SecureSubmit's JS dependencies
+     */
+    public function hookHeader()
+    {
+        if (!in_array($this->context->currency->iso_code, $this->limited_currencies)) {
+            return;
+        }
 
-		if (Tools::getValue('controller') != 'order-opc' && (!($_SERVER['PHP_SELF'] == __PS_BASE_URI__.'order.php' || $_SERVER['PHP_SELF'] == __PS_BASE_URI__.'order-opc.php' || Tools::getValue('controller') == 'order' || Tools::getValue('controller') == 'orderopc' || Tools::getValue('step') == 3)))
-			return;
+        if (Tools::getValue('controller') != 'order-opc' && (!($_SERVER['PHP_SELF'] == __PS_BASE_URI__.'order.php' || $_SERVER['PHP_SELF'] == __PS_BASE_URI__.'order-opc.php' || Tools::getValue('controller') == 'order' || Tools::getValue('controller') == 'orderopc' || Tools::getValue('step') == 3))) {
+            return;
+        }
 
-		$this->context->controller->addCSS($this->_path.'views/css/securesubmit.css');
+        $this->context->controller->addCSS($this->_path.'views/css/securesubmit.css');
         $this->context->controller->addJS($this->_path.'views/js/secure.submit-1.0.2.js');
         $this->context->controller->addJS($this->_path.'views/js/securesubmit.js');
 
-		return '<script type="text/javascript">var securesubmit_public_key = \''.addslashes(Configuration::get('hps_mode') ? Configuration::get('hps_public_key_live') : Configuration::get('hps_public_key_test')).'\';</script>';
-	}
+        return '<script type="text/javascript">var securesubmit_public_key = \''.addslashes(Configuration::get('hps_mode') ? Configuration::get('hps_public_key_live') : Configuration::get('hps_public_key_test')).'\';</script>';
+    }
 
     public function hookPaymentOptions($params)
     {
@@ -377,17 +353,18 @@ class SecureSubmit extends PaymentModule
             $this->context->smarty->assign('failure', Configuration::get('hps_fraud_message'));
         }
 
-		/* If the currency is not supported, then leave */
-		if (!in_array($this->context->currency->iso_code, $this->limited_currencies))
-			return ;
+        /* If the currency is not supported, then leave */
+        if (!in_array($this->context->currency->iso_code, $this->limited_currencies)) {
+            return ;
+        }
 
-		$newOption = new PaymentOption();
-		$newOption
-				->setModuleName($this->name)
+        $newOption = new PaymentOption();
+        $newOption
+                ->setModuleName($this->name)
                 ->setCallToActionText($this->trans('Pay by Credit Card (Secure Submit)', array()))
-				->setAdditionalInformation($this->display(__FILE__, 'views/templates/hook/payment.tpl'));
+                ->setAdditionalInformation($this->display(__FILE__, 'views/templates/hook/payment.tpl'));
 
-		return [$newOption];
+        return [$newOption];
     }
 
     /**
@@ -395,49 +372,54 @@ class SecureSubmit extends PaymentModule
      */
     public function hookPaymentReturn($params)
     {
-        if ($this->active == false)
+        if ($this->active == false) {
             return;
+        }
 
         $order = $params['order'];
 
-        if ($order->getCurrentOrderState()->id != Configuration::get('PS_OS_ERROR'))
+        if ($order->getCurrentOrderState()->id != Configuration::get('PS_OS_ERROR')) {
             $this->context->smarty->assign('status', 'ok');
-
+        }
     }
 
     /**
-	 * Check settings requirements to make sure the SecureSubmit's 
-	 * API keys are set.
-	 *
-	 * @return boolean Whether the API Keys are set or not.
-	 */
-	public function checkSettings(){
-		if (Configuration::get('hps_mode'))
-			return Configuration::get('hps_public_key_live') != '' && Configuration::get('hps_secret_key_live') != '';
-		else
-			return Configuration::get('hps_public_key_test') != '' && Configuration::get('hps_secret_key_test') != '';
+     * Check settings requirements to make sure the SecureSubmit's
+     * API keys are set.
+     *
+     * @return boolean Whether the API Keys are set or not.
+     */
+    public function checkSettings()
+    {
+        if (Configuration::get('hps_mode')) {
+            return Configuration::get('hps_public_key_live') != '' && Configuration::get('hps_secret_key_live') != '';
+        } else {
+            return Configuration::get('hps_public_key_test') != '' && Configuration::get('hps_secret_key_test') != '';
+        }
     }
     
     /**
-	 * Check technical requirements to make sure the SecureSubmit's module will work properly
-	 *
-	 * @return array Requirements tests results
-	 */
-	public function checkRequirements(){
+     * Check technical requirements to make sure the SecureSubmit's module will work properly
+     *
+     * @return array Requirements tests results
+     */
+    public function checkRequirements()
+    {
         $tests = array('result' => true);
 
         if (Configuration::get('hps_mode')) {
-			$tests['ssl'] = array('name' => $this->l('SecureSubmit requires SSL to be enabled for production.'), 'result' => Configuration::get('PS_SSL_ENABLED') || (!empty($_SERVER['HTTPS']) && Tools::strtolower($_SERVER['HTTPS']) != 'off'));
+            $tests['ssl'] = array('name' => $this->l('SecureSubmit requires SSL to be enabled for production.'), 'result' => Configuration::get('PS_SSL_ENABLED') || (!empty($_SERVER['HTTPS']) && Tools::strtolower($_SERVER['HTTPS']) != 'off'));
         }
         
-		$tests['currencies'] = array('name' => $this->l('The currency USD must be enabled on your store'), 'result' => Currency::exists('USD', 0));
+        $tests['currencies'] = array('name' => $this->l('The currency USD must be enabled on your store'), 'result' => Currency::exists('USD', 0));
         $tests['configuration'] = array('name' => $this->l('You must set your SecureSubmit Public and Secret API Keys'), 'result' => $this->checkSettings());
 
-		foreach ($tests as $k => $test)
-			if ($k != 'result' && !$test['result'])
-				$tests['result'] = false;
+        foreach ($tests as $k => $test) {
+            if ($k != 'result' && !$test['result']) {
+                $tests['result'] = false;
+            }
+        }
 
-		return $tests;
+        return $tests;
     }
-    
 }

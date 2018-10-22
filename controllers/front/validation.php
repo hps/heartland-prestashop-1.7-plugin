@@ -1,28 +1,4 @@
 <?php
-/**
-* 2007-2018 PrestaShop
-*
-* NOTICE OF LICENSE
-*
-* This source file is subject to the Academic Free License (AFL 3.0)
-* that is bundled with this package in the file LICENSE.txt.
-* It is also available through the world-wide-web at this URL:
-* http://opensource.org/licenses/afl-3.0.php
-* If you did not receive a copy of the license and are unable to
-* obtain it through the world-wide-web, please send an email
-* to license@prestashop.com so we can send you a copy immediately.
-*
-* DISCLAIMER
-*
-* Do not edit or add to this file if you wish to upgrade PrestaShop to newer
-* versions in the future. If you wish to customize PrestaShop for your
-* needs please refer to http://www.prestashop.com for more information.
-*
-*  @author    PrestaShop SA <contact@prestashop.com>
-*  @copyright 2007-2018 PrestaShop SA
-*  @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
-*  International Registered Trademark & Property of PrestaShop SA
-*/
 
 class SecureSubmitValidationModuleFrontController extends ModuleFrontController
 {
@@ -79,7 +55,7 @@ class SecureSubmitValidationModuleFrontController extends ModuleFrontController
             $module_id = $this->module->id;
             $order_id = $this->module->currentOrder;
             Tools::redirect('index.php?controller=order-confirmation&id_cart='.$cart_id.'&id_module='.$module_id.'&id_order='.$order_id.'&key='.$secure_key);
-        }else{
+        } else {
             $payment_status = Configuration::get('PS_OS_ERROR');
             // Payment failed, go back to order page
             Tools::redirect('index.php?controller=order&error=PaymentFailedToProcess');
@@ -151,7 +127,7 @@ class SecureSubmitValidationModuleFrontController extends ModuleFrontController
                 $issuerResponse = (string)$this->getVelocityLastResponse();
                 $payment_status = Configuration::get('PS_OS_ERROR');
                 // Payment failed, go back to order page
-                Tools::redirect('index.php?controller=order&maxAttemptsExceeded=true');            
+                Tools::redirect('index.php?controller=order&maxAttemptsExceeded=true');
             }
 
             $response = $chargeService->charge(
@@ -181,7 +157,7 @@ class SecureSubmitValidationModuleFrontController extends ModuleFrontController
             $this->l('Transaction ID:').' '.$response->transactionId."\n";
         }
 
-        if($ResponseMessage == "Failure" || $response->responseCode != '00'){
+        if ($ResponseMessage == "Failure" || $response->responseCode != '00') {
             return false;
         }
 
@@ -191,7 +167,8 @@ class SecureSubmitValidationModuleFrontController extends ModuleFrontController
     /** If the Velocity checks are enabled
      * @return bool
      */
-    private function getVelocitySetting(){
+    private function getVelocitySetting()
+    {
         $this->setVelocityTimer();
         return (bool)$this->get_setting("enable_fraud", '1') ;
     }
@@ -199,28 +176,32 @@ class SecureSubmitValidationModuleFrontController extends ModuleFrontController
     /** Gets the message to be displayed to the end user if the rule is triggered
      * @return string
      */
-    private function getVelocityMsg(){
+    private function getVelocityMsg()
+    {
         return $this->get_setting("fraud_message", 'Please contact us to complete the transaction.');
     }
 
     /** Number of minutes between attempts to retain failure counts
      * @return int
      */
-    private function getVelocityTimeOut(){
+    private function getVelocityTimeOut()
+    {
         return (int) $this->get_setting("fraud_velocity_timeout", '10');
     }
 
     /** Number of failures before the rule is applied
      * @return int
      */
-    private function getVelocityLimit(){
+    private function getVelocityLimit()
+    {
         return (int) $this->get_setting("fraud_velocity_attempts", '3');
     }
 
     /** Sets the timer to the current time in seconds. Unix time stamp
      * @return mixed
      */
-    private function setVelocityTimer(){
+    private function setVelocityTimer()
+    {
         $this->context->cookie->LastCheck = time();
         return $this->context->cookie->LastCheck;
     }
@@ -228,31 +209,32 @@ class SecureSubmitValidationModuleFrontController extends ModuleFrontController
     /** Checks if the current settings have timed out
      * @return bool
      */
-    private function isVelocityTimedOut(){
+    private function isVelocityTimedOut()
+    {
         return (bool) ($this->context->cookie->LastCheck < (time()-(self::ONE_MINUTE_IN_SECONDS*$this->getVelocityTimeOut())));
     }
 
     /** Returns the current if any count of Failed transactions
      * @return int
      */
-    private function getVelocityCount(){
+    private function getVelocityCount()
+    {
         return (int) $this->context->cookie->VelocityCount;
     }
 
     /** increment or reset the velocity counter. This counter is limited in duration by \SecureSubmitPayment::isVelocityTimedOut
      * @return int
      */
-    private function incVelocityCounter(){
-        if ($this->getVelocitySetting()){
-            if ($this->isVelocityTimedOut()){
+    private function incVelocityCounter()
+    {
+        if ($this->getVelocitySetting()) {
+            if ($this->isVelocityTimedOut()) {
                 $this->context->cookie->VelocityCount = 0;
-            }
-            else{
+            } else {
                 $this->context->cookie->VelocityCount = $this->getVelocityCount() + 1;
             }
             $this->setVelocityTimer();
-        }
-        else{
+        } else {
             $this->context->cookie->VelocityCount = 0;
         }
         return (int) $this->getVelocityCount();
@@ -261,9 +243,10 @@ class SecureSubmitValidationModuleFrontController extends ModuleFrontController
     /** gets any response currently stored
      * @param $IssuerResponse
      */
-    private function getVelocityLastResponse() {
+    private function getVelocityLastResponse()
+    {
         $re = '';
-        if ($this->getVelocitySetting() && $this->isVelocityTimedOut()){
+        if ($this->getVelocitySetting() && $this->isVelocityTimedOut()) {
             $re = $this->context->cookie->IssuerResponse;
             $this->setVelocityTimer();
         }
@@ -273,9 +256,10 @@ class SecureSubmitValidationModuleFrontController extends ModuleFrontController
     /** Set the last issuer response. stores it so it can be displayed back to the user on subsequent failures
      * @return int
      */
-    private function setVelocityLastResponse($IssuerResponse){
+    private function setVelocityLastResponse($IssuerResponse)
+    {
         $this->context->cookie->IssuerResponse = '';
-        if ($this->getVelocitySetting()){
+        if ($this->getVelocitySetting()) {
             $this->context->cookie->IssuerResponse = trim(filter_var($IssuerResponse, FILTER_SANITIZE_STRING));
         }
         return $this->getVelocityLastResponse();
@@ -286,9 +270,10 @@ class SecureSubmitValidationModuleFrontController extends ModuleFrontController
      * @param string $default
      * @return string string
      */
-    private function get_setting($setting, $default){
+    private function get_setting($setting, $default)
+    {
         $ret = trim(Tools::safeOutput(Configuration::get('hps_' . $setting)));
-        if ($ret === ''){
+        if ($ret === '') {
             $ret = $default;
         }
         return $ret;

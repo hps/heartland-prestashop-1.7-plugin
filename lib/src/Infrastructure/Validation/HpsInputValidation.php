@@ -30,7 +30,7 @@ class HpsInputValidation
                 'Currency cannot be none',
                 'currency'
             );
-        } else if (!in_array(strtolower($currency), $currencies)) {
+        } elseif (!in_array(strtolower($currency), $currencies)) {
             throw new HpsInvalidRequestException(
                 HpsExceptionCodes::INVALID_CURRENCY,
                 "'".strtolower($currency)."' is not a supported currency",

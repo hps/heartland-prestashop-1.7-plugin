@@ -83,7 +83,6 @@ class HpsAttachmentService extends HpsSoapGatewayService
         }
 
         return $this->_submitTransaction($hpsTransaction, 'GetAttachments');
-
     }
 
     /**
@@ -96,7 +95,6 @@ class HpsAttachmentService extends HpsSoapGatewayService
      */
     private function _submitTransaction($transaction, $txnType)
     {
-
         try {
             $response = $this->doRequest($transaction);
         } catch (HpsException $e) {

@@ -83,7 +83,7 @@ class HpsCreditServiceRefundBuilder extends HpsBuilderAbstract
                 $xml
             ));
             $hpsBlock1->appendChild($cardData);
-        } else if ($this->token != null) {
+        } elseif ($this->token != null) {
             $cardData = $xml->createElement('hps:CardData');
             $cardData->appendChild($this->service->_hydrateTokenData(
                 $this->token,

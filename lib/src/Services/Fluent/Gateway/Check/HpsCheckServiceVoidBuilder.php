@@ -40,7 +40,7 @@ class HpsCheckServiceVoidBuilder extends HpsBuilderAbstract
 
         if ($this->transactionId != null) {
             $hpsBlock1->appendChild($xml->createElement('hps:GatewayTxnId', $this->transactionId));
-        } else if ($this->clientTransactionId != null) {
+        } elseif ($this->clientTransactionId != null) {
             $hpsBlock1->appendChild($xml->createElement('hps:ClientTxnId', $this->clientTransactionId));
         }
 

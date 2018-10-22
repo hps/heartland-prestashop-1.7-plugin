@@ -60,9 +60,9 @@ class HpsCreditServicePrepaidAddValueBuilder extends HpsBuilderAbstract
         $cardData = $xml->createElement('hps:CardData');
         if ($this->card != null) {
             $cardData->appendChild($this->service->_hydrateManualEntry($this->card, $xml));
-        } else if ($this->trackData != null) {
+        } elseif ($this->trackData != null) {
             $cardData->appendChild($this->service->_hydrateTrackData($this->trackData, $xml));
-        } else if ($this->token != null) {
+        } elseif ($this->token != null) {
             $cardData->appendChild($this->service->_hydrateTokenData($this->token, $xm));
         }
 

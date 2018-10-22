@@ -354,6 +354,7 @@ class HpsAltPaymentService extends HpsSoapGatewayService
                 break;
             case 'GetTransactionStatus':
                 $rvalue = HpsTransactionStatus::fromDict($response, $txnType);
+                // no break
             default:
                 break;
         }

@@ -235,11 +235,11 @@ class HpsSoapGatewayService extends HpsGatewayServiceAbstract implements HpsGate
         $giftCardData = $xml->createElement('hps:'.$elementName);
         if ($giftCard->number != null) {
             $giftCardData->appendChild($xml->createElement('hps:CardNbr', $giftCard->number));
-        } else if ($giftCard->trackData != null) {
+        } elseif ($giftCard->trackData != null) {
             $giftCardData->appendChild($xml->createElement('hps:TrackData', $giftCard->trackData));
-        } else if ($giftCard->alias != null) {
+        } elseif ($giftCard->alias != null) {
             $giftCardData->appendChild($xml->createElement('hps:Alias', $giftCard->alias));
-        } else if ($giftCard->tokenValue != null) {
+        } elseif ($giftCard->tokenValue != null) {
             $giftCardData->appendChild($xml->createElement('hps:TokenValue', $giftCard->tokenValue));
         }
 
@@ -296,10 +296,10 @@ class HpsSoapGatewayService extends HpsGatewayServiceAbstract implements HpsGate
 
         return $secureEcommerce;
     }
- /*
-  * @link https://github.com/hps/heartland-php/pull/21
-  * @description resolves a recursion issue identified in the link above
-  */
+    /*
+     * @link https://github.com/hps/heartland-php/pull/21
+     * @description resolves a recursion issue identified in the link above
+     */
     public function _hydrateTokenData($token, DOMDocument $xml, $cardPresent = false, $readerPresent = false)
     {
         if (!$token instanceof HpsTokenData) {
@@ -342,7 +342,7 @@ class HpsSoapGatewayService extends HpsGatewayServiceAbstract implements HpsGate
         if ($this->_config->secretApiKey != null && $this->_config->secretApiKey != "") {
             if (strpos($this->_config->secretApiKey, '_cert_') !== false) {
                 return "https://cert.api2.heartlandportico.com/Hps.Exchange.PosGateway/PosGatewayService.asmx";
-            } else if (strpos($this->_config->secretApiKey, '_uat_') !== false) {
+            } elseif (strpos($this->_config->secretApiKey, '_uat_') !== false) {
                 return "https://posgateway.uat.secureexchange.net/Hps.Exchange.PosGateway/PosGatewayService.asmx";
             } else {
                 return "https://api2.heartlandportico.com/Hps.Exchange.PosGateway/PosGatewayService.asmx";

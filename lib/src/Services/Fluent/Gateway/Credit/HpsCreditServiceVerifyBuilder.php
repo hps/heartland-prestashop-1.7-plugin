@@ -79,14 +79,14 @@ class HpsCreditServiceVerifyBuilder extends HpsBuilderAbstract
                     $this->card->encryptionData
                 ));
             }
-        } else if ($this->token != null) {
+        } elseif ($this->token != null) {
             $cardData->appendChild($this->service->_hydrateTokenData(
                 $this->token,
                 $xml,
                 $this->cardPresent,
                 $this->readerPresent
             ));
-        } else if ($this->trackData != null) {
+        } elseif ($this->trackData != null) {
             $cardData->appendChild($this->service->_hydrateTrackData($this->trackData));
             if ($this->trackData->encryptionData != null) {
                 $cardData->appendChild($this->service->_hydrateEncryptionData(

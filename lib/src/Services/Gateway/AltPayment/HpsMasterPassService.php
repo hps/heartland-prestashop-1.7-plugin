@@ -20,9 +20,7 @@
  * @license  https://github.com/hps/heartland-php/blob/master/LICENSE.txt Custom
  * @link     https://github.com/hps/heartland-php
  */
-class HpsMasterPassService
-    extends HpsCentinelGatewayService
-    implements HpsAltPaymentServiceInterface
+class HpsMasterPassService extends HpsCentinelGatewayService implements HpsAltPaymentServiceInterface
 {
     protected static $currencyCodes = array(
         'usd' => '840',

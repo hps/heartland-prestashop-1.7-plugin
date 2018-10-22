@@ -77,7 +77,7 @@ class HpsPayPlanPaymentMethodService extends HpsRestGatewayService
         $data['customerKey'] = $paymentMethod->customerKey;
         if (isset($paymentMethod->accountNumber)) {
             $data['accountNumber'] = $paymentMethod->accountNumber;
-        } else if (isset($paymentMethod->paymentToken)) {
+        } elseif (isset($paymentMethod->paymentToken)) {
             $data['paymentToken'] = $paymentMethod->paymentToken;
         }
         $result = $this->doRequest($data, array(

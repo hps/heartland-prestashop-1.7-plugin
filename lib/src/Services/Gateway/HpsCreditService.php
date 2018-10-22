@@ -147,7 +147,7 @@ class HpsCreditService extends HpsSoapGatewayService
             $cardData = $xml->createElement('hps:CardData');
             $cardData->appendChild($this->_hydrateManualEntry($cardOrTokenOrPMKey, $xml));
             $hpsBlock1->appendChild($cardData);
-        } else if ($cardOrTokenOrPMKey instanceof HpsTokenData) {
+        } elseif ($cardOrTokenOrPMKey instanceof HpsTokenData) {
             $cardData = $xml->createElement('hps:CardData');
             $cardData->appendChild($this->_hydrateTokenData($cardOrTokenOrPMKey, $xml));
             $hpsBlock1->appendChild($cardData);
@@ -215,7 +215,8 @@ class HpsCreditService extends HpsSoapGatewayService
      * @throws \HpsException
      * @throws \HpsGatewayException
      */
-    public function updateTokenExpiration($tokenValue, $expMonth, $expYear)  {
+    public function updateTokenExpiration($tokenValue, $expMonth, $expYear)
+    {
         // new DOM
         $xml = new DOMDocument();
         $hpsTransaction = $xml->createElement('hps:Transaction');
@@ -227,15 +228,15 @@ class HpsCreditService extends HpsSoapGatewayService
         $hpsSet = $xml->createElement('hps:Set');
         $hpsAttribute = $xml->createElement('hps:Attribute');
 
-            $hpsAttribute->appendChild($xml->createElement('hps:Name', 'ExpMonth'));
-            $hpsAttribute->appendChild($xml->createElement('hps:Value', (string)sprintf("%'.02d", (int)$expMonth)));
+        $hpsAttribute->appendChild($xml->createElement('hps:Name', 'ExpMonth'));
+        $hpsAttribute->appendChild($xml->createElement('hps:Value', (string)sprintf("%'.02d", (int)$expMonth)));
 
         $hpsSet->appendChild($hpsAttribute);
 
         $hpsAttribute = $xml->createElement('hps:Attribute');
 
-            $hpsAttribute->appendChild($xml->createElement('hps:Name', 'ExpYear'));
-            $hpsAttribute->appendChild($xml->createElement('hps:Value', (string)$expYear));
+        $hpsAttribute->appendChild($xml->createElement('hps:Name', 'ExpYear'));
+        $hpsAttribute->appendChild($xml->createElement('hps:Value', (string)$expYear));
 
         $hpsSet->appendChild($hpsAttribute);
 
@@ -301,7 +302,7 @@ class HpsCreditService extends HpsSoapGatewayService
             $cardDataElement = $xml->createElement('hps:CardData');
             $cardDataElement->appendChild($this->_hydrateManualEntry($cardData, $xml));
             $hpsBlock1->appendChild($cardDataElement);
-        } else if ($cardData instanceof HpsTokenData) {
+        } elseif ($cardData instanceof HpsTokenData) {
             $cardDataElement = $xml->createElement('hps:CardData');
             $cardDataElement->appendChild($this->_hydrateTokenData($cardData, $xml));
             $hpsBlock1->appendChild($cardDataElement);
@@ -320,17 +321,17 @@ class HpsCreditService extends HpsSoapGatewayService
 
         return $this->_submitTransaction($hpsTransaction, 'CreditReturn', (isset($details->clientTransactionId) ? $details->clientTransationId : null));
     }
-     /**
-     * @param HpsCreditCard|HpsTokenData|int                $cardData GatewayTxnId
-     * @param float                                         $amount
-     * @param USD                                           $currency
-     * @param null|HpsTransactionDetails                    $details
-     * @param null|float                                    $authAmount
-     * @return HpsReversal
-     * @throws HpsException
-     * @throws HpsGatewayException
-     * @throws HpsInvalidRequestException
-     */
+    /**
+    * @param HpsCreditCard|HpsTokenData|int                $cardData GatewayTxnId
+    * @param float                                         $amount
+    * @param USD                                           $currency
+    * @param null|HpsTransactionDetails                    $details
+    * @param null|float                                    $authAmount
+    * @return HpsReversal
+    * @throws HpsException
+    * @throws HpsGatewayException
+    * @throws HpsInvalidRequestException
+    */
     public function reverse($cardData, $amount, $currency, $details = null, $authAmount = null)
     {
         HpsInputValidation::checkCurrency($currency);
@@ -343,14 +344,14 @@ class HpsCreditService extends HpsSoapGatewayService
         $hpsBlock1 = $xml->createElement('hps:Block1');
 
         $hpsBlock1->appendChild($xml->createElement('hps:Amt', $amount));
-        if ($authAmount !== null){
+        if ($authAmount !== null) {
             $hpsBlock1->appendChild($xml->createElement('hps:AuthAmt', HpsInputValidation::checkAmount($authAmount)));
         }
         $cardDataElement = null;
         if ($cardData instanceof HpsCreditCard) {
             $cardDataElement = $xml->createElement('hps:CardData');
             $cardDataElement->appendChild($this->_hydrateManualEntry($cardData, $xml));
-        } else if ($cardData instanceof HpsTokenData) {
+        } elseif ($cardData instanceof HpsTokenData) {
             $cardDataElement = $xml->createElement('hps:CardData');
             $cardDataElement->appendChild($this->_hydrateTokenData($cardData, $xml));
         } else {

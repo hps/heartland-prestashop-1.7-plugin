@@ -99,7 +99,6 @@ class HpsAttachment extends HpsTransaction
             } //
             $this->{$name} = $value;
         }
-
     }
 
     /**

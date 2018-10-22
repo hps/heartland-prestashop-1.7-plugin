@@ -9,13 +9,13 @@ class HpsCheck
     public $checkHolder   = null;
     public $micrNumber    = null;
 
-     /**
-     * Account Type: Checking, Savings.
-     *
-     * <b>NOTE:</b> If processing with Colonnade, Account Type must be specified.
-     *
-     * @var null
-     */
+    /**
+    * Account Type: Checking, Savings.
+    *
+    * <b>NOTE:</b> If processing with Colonnade, Account Type must be specified.
+    *
+    * @var null
+    */
     public $accountType   = null;
 
     /**

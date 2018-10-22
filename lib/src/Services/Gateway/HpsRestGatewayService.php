@@ -115,7 +115,7 @@ class HpsRestGatewayService extends HpsGatewayServiceAbstract
         if ($this->_config->secretApiKey != null && $this->_config->secretApiKey != "") {
             if (strpos($this->_config->secretApiKey, '_cert_') !== false) {
                 return self::CERT_URL;
-            } else if (strpos($this->_config->secretApiKey, '_uat_') !== false) {
+            } elseif (strpos($this->_config->secretApiKey, '_uat_') !== false) {
                 return self::UAT_URL;
             } else {
                 return self::PROD_URL;

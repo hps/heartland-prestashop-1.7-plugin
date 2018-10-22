@@ -1,8 +1,6 @@
 <?php
 
-class HpsCentinelGatewayService
-    extends HpsGatewayServiceAbstract
-    implements HpsGatewayServiceInterface
+class HpsCentinelGatewayService extends HpsGatewayServiceAbstract implements HpsGatewayServiceInterface
 {
     public function doRequest($request, $options = null)
     {

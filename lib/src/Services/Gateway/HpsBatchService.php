@@ -11,7 +11,7 @@ class HpsBatchService extends HpsSoapGatewayService
     {
         $xml = new DOMDocument();
         $hpsTransaction = $xml->createElement('hps:Transaction');
-            $hpsBatchClose = $xml->createElement('hps:BatchClose');
+        $hpsBatchClose = $xml->createElement('hps:BatchClose');
         $hpsTransaction->appendChild($hpsBatchClose);
 
         $response = $this->doRequest($hpsTransaction);
