@@ -1,0 +1,56 @@
+.secureSubmit-header img{
+    width:135px;
+    height:auto;
+}
+
+.btn.btn-primary.heartland{
+    background-color: #c71b24;
+    border-color: #c71b24;
+}
+
+#heartland-payment-logo{
+    border-right: 1px solid #a7a8aa;
+    padding-right: 16px;
+}
+
+.gray-header{
+    padding-left: 10px;
+    color: #54575a;
+    font-size: 25px;
+    vertical-align: middle;
+}
+
+.heartland-video-wrapper {
+	position: relative;
+	padding-bottom: 56.25%; /* 16:9 */
+	padding-top: 25px;
+	height: 0;
+}
+
+.heartland-video-wrapper iframe {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.heartland.icon.icon-check{
+    color: #4caf50;
+}
+
+.heartland.icon.icon-remove{
+    color: #FF5722;
+}
+
+.accepted-cards{
+    width:400px;
+    height:50;
+}
+
+@media (max-width:1099px) {
+	.accepted-cards {
+		width:305px;
+		height:39px;
+    }
+}
