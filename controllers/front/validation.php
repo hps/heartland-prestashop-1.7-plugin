@@ -78,7 +78,7 @@ class SecureSubmitValidationModuleFrontController extends ModuleFrontController
         
         $config = new HpsServicesConfig();
         $config->secretApiKey = Configuration::get('hps_mode') ? Configuration::get('hps_secret_key_live') : Configuration::get('hps_secret_key_test');
-        $config->versionNumber = '3136';
+        $config->versionNumber = '1540';
         $config->developerId = '002914';
         $chargeService = new HpsCreditService($config);
         $hpsaddress = new HpsAddress();
