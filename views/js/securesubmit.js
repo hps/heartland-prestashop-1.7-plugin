@@ -15,7 +15,7 @@
 
   function bindHandler() {
     var button = $("#payment-confirmation div button.btn.btn-primary.center-block");
-    button.on("click", secureSubmitFormHandler);
+    button.off("click").on("click", secureSubmitFormHandler);
   }
 
   function secureSubmitFormHandler(event) {
