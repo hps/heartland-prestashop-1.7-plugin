@@ -15,7 +15,7 @@
 
   function bindHandler() {
     var button = $(".ps-shown-by-js button");
-    button.on("click", secureSubmitFormHandler);
+    button.off("click").on("click", secureSubmitFormHandler);
   }
 
   function secureSubmitFormHandler(event) {
