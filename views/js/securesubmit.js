@@ -14,7 +14,7 @@
   });
 
   function bindHandler() {
-    var button = $("#payment-confirmation div button.btn.btn-primary.center-block");
+    var button = $(".ps-shown-by-js button");
     button.off("click").on("click", secureSubmitFormHandler);
   }
 
