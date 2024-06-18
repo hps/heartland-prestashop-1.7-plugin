@@ -48,5 +48,3 @@
 
 	{/if}
 </div>
-<script type="application/javascript" src="https://js.globalpay.com/v1/globalpayments.js"></script>
-

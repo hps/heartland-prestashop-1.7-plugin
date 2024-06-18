@@ -14,7 +14,7 @@ class SecureSubmit extends PaymentModule
     {
         $this->name = 'secureSubmit';
         $this->tab = 'payments_gateways';
-        $this->version = '2.0.0';
+        $this->version = '2.1.0';
         $this->author = 'Heartland';
         $this->need_instance = 0;
         $this->bootstrap = true;

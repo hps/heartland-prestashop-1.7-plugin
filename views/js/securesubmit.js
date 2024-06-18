@@ -6,7 +6,8 @@
   $(document).ready(function () {
     secureSubmitPrepareFields();
     $("input[data-module-name='secureSubmit']").click(function () {
-      $(".ps-shown-by-js button").hide();
+      $(".ps-shown-by-js").hide();
+      $("#conditions-to-approve").hide();
     }).click();
     if ($("#failureModal").length) {
       $("#failureModal").modal("show").off("click");
@@ -26,11 +27,11 @@
     // Create globalpayment configurations
     $('#conditions_to_approve[terms-and-conditions]').prop('checked', true);
     $("#secure-payment-field").attr("disabled",true);
-    securesubmit_public_key_test = securesubmit_public_key;
+    securesubmit_key = securesubmit_public_key;
 
     // GlobalPayments JS enabled payment fields
     GlobalPayments.configure({
-      publicApiKey: securesubmit_public_key_test
+      publicApiKey: securesubmit_key
     });
 
     const hps = GlobalPayments.ui.form({
