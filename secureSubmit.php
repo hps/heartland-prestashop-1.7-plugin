@@ -14,7 +14,7 @@ class SecureSubmit extends PaymentModule
     {
         $this->name = 'secureSubmit';
         $this->tab = 'payments_gateways';
-        $this->version = '2.0.0';
+        $this->version = '2.1.0';
         $this->author = 'Heartland';
         $this->need_instance = 0;
         $this->bootstrap = true;
@@ -332,6 +332,7 @@ class SecureSubmit extends PaymentModule
             return;
         }
 
+        $this->context->controller->addJS('https://js.globalpay.com/v1/globalpayments.js');
         $this->context->controller->addCSS($this->_path.'views/css/securesubmit.css');
         $this->context->controller->addJS($this->_path.'views/js/secure.submit-1.0.2.js');
         $this->context->controller->addJS($this->_path.'views/js/securesubmit.js');

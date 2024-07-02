@@ -1,8 +1,13 @@
-(function ($) {
+(function (window, $) {
+  var addHandler = window.GlobalPayments
+      ? GlobalPayments.events.addHandler
+      : function () { };
+
   $(document).ready(function () {
-    bindHandler();
+    secureSubmitPrepareFields();
     $("input[data-module-name='secureSubmit']").click(function () {
-      $(".ps-shown-by-js button").html("Pay Now");
+      $(".ps-shown-by-js").hide();
+      $("#conditions-to-approve").hide();
     }).click();
     if ($("#failureModal").length) {
       $("#failureModal").modal("show").off("click");
@@ -15,54 +20,170 @@
 
   function bindHandler() {
     var button = $(".ps-shown-by-js button");
-    button.off("click").on("click", secureSubmitFormHandler);
+    button.off("click").on("click", secureSubmitPrepareFields);
   }
 
-  function secureSubmitFormHandler(event) {
-    event.preventDefault();
-    $("#securesubmit-ajax-loader").show();
-    if ($("input[data-module-name='secureSubmit']").is(':checked')) {
-      $(".ps-shown-by-js button").html("Pay Now");
-      if ($('input.securesubmitToken').size() === 0) {
-        var card = $('.securesubmit-card-number').val().replace(/\D/g, '');
-        var cvc = $('.securesubmit-card-cvc').val();
-        var month = '';
-        var year = '';
+  function secureSubmitPrepareFields(){
+    // Create globalpayment configurations
+    $('#conditions_to_approve[terms-and-conditions]').prop('checked', true);
+    $("#secure-payment-field").attr("disabled",true);
+    securesubmit_key = securesubmit_public_key;
 
-        if (
-          $('.securesubmit-card-expiry') &&
-          $('.securesubmit-card-expiry').val()
-        ) {
-          var date = $('.securesubmit-card-expiry').val().split('/');
+    // GlobalPayments JS enabled payment fields
+    GlobalPayments.configure({
+      publicApiKey: securesubmit_key
+    });
 
-          if (date[0]) {
-            month = date[0].trim();
-          }
-
-          if (date[1]) {
-            year = date[1].trim();
-          }
+    const hps = GlobalPayments.ui.form({
+      fields: {
+        "card-number": {
+          placeholder: "•••• •••• •••• ••••",
+          target: "#securesubmitIframeCardNumber"
+        },
+        "card-expiration": {
+          placeholder: "MM / YYYY",
+          target: "#securesubmitIframeCardExpiration"
+        },
+        "card-cvv": {
+          placeholder: "•••",
+          target: "#securesubmitIframeCardCvv"
+        },
+        "submit": {
+          target: "#submit_button",
+          text: "Pay Now"
         }
-
-        hps.tokenize({
-          data: {
-            public_key: securesubmit_public_key,
-            number: card,
-            cvc: cvc,
-            exp_month: month,
-            exp_year: year
-          },
-          success: secureSubmitResponseHandler,
-          error: secureSubmitResponseHandler
-        });
-
-        return false;
+      },
+      styles: {
+        'html' : {
+          "-webkit-text-size-adjust": "100%"
+        },
+        'body' : {
+          'width' : '100%'
+        },
+        '#secure-payment-field-wrapper' : {
+          'position' : 'relative',
+          'width' : '99%'
+        },
+        '#secure-payment-field' : {
+          'background-color' : '#fff',
+          'border'           : '1px solid #ccc',
+          'display'          : 'block',
+          'font-size'        : '14px',
+          'height'           : '35px',
+          'padding'          : '6px 12px',
+          'width'            : '100%',
+        },
+        '#secure-payment-field-body' :{
+          'width' : '99% !important',
+          'position' : 'absolute'
+        },
+        '#secure-payment-field:focus' : {
+          "border": "1px solid lightblue",
+          "box-shadow": "0 1px 3px 0 #cecece",
+          "outline": "none"
+        },
+        'button#secure-payment-field.submit' : {
+          'width': 'unset',
+          'flex': 'unset',
+          'float': 'right',
+          'color': '#fff',
+          'background': '#2fb5d2',
+          'cursor': 'pointer',
+          'text-transform': 'uppercase',
+          'font-weight': '600',
+          'padding': '.5rem 1.25rem'
+        },
+        '#secure-payment-field[type=button]' : {
+          "width": "100%"
+        },
+        '#secure-payment-field[type=button]:focus' : {
+          "color": "#fff",
+          "background": "#000000",
+          "width": "100%"
+        },
+        '#secure-payment-field[type=button]:hover' : {
+          "color": "#fff",
+          "background": "#000000"
+        },
+        '.card-cvv' : {
+          'background': 'transparent url(../../views/img/cvv1.png)',
+          'background-size' : '63px 40px'
+        },
+        '.card-cvv.card-type-amex' : {
+          'background': 'transparent url(../../views/img/ss-savedcards-amex@2x.png) no-repeat right top',
+          'background-size' : '63px 40px'
+        },
+        '.card-number' : {
+          'background': 'transparent url(../../views/img/ss-inputcard-blank@2x.png) no-repeat right',
+          'background-size' : '55px 35px'
+        },
+        '.card-number.invalid.card-type-amex' : {
+          'background': 'transparent url(../../views/img/ss-savedcards-amex@2x.png) no-repeat right',
+          'background-position-y' : '-41px',
+          'background-size' : '50px 90px'
+        },
+        '.card-number.invalid.card-type-discover' : {
+          'background': 'transparent url(../../views/img/ss-saved-discover@2x.png) no-repeat right bottom',
+          'background-position-y' : '-44px',
+          'background-size' : '85px 90px'
+        },
+        '.card-number.invalid.card-type-jcb' : {
+          'background': 'transparent url(../../views/img/ss-saved-jcb@2x.png) no-repeat right',
+          'background-position-y' : '-44px',
+          'background-size' : '55px 94px'
+        },
+        '.card-number.invalid.card-type-mastercard' : {
+          'background': 'transparent url(../../views/img/ss-saved-mastercard.png) no-repeat right',
+          'background-position-y' : '-41px',
+          'background-size' : '82px 86px'
+        },
+        '.card-number.invalid.card-type-visa' : {
+          'background': 'transparent url(../../views/img/ss-saved-visa@2x.png) no-repeat right',
+          'background-position-y' : '-44px',
+          'background-size' : '83px 88px',
+        },
+        '.card-number.valid.card-type-amex' : {
+          'background': 'transparent url(../../views/img/ss-saved-discover@2x.png) no-repeat right top',
+          'background-position-y' : '3px',
+          'background-size' : '50px 90px',
+        },
+        '.card-number.valid.card-type-discover' : {
+          'background': 'transparent url(../../views/img/ss-saved-discover@2x.png) no-repeat right top',
+          'background-position-y' : '1px',
+          'background-size' : '85px 90px'
+        },
+        '.card-number.valid.card-type-jcb' : {
+          'background': 'transparent url(../../views/img/ss-saved-jcb@2x.png) no-repeat right top',
+          'background-position-y' : '2px',
+          'background-size' : '55px 94px'
+        },
+        '.card-number.valid.card-type-mastercard' : {
+          'background': 'transparent url(../../views/img/images/ss-saved-mastercard.png) no-repeat right',
+          'background-position-y' : '2px',
+          'background-size' : '82px 86px'
+        },
+        '.card-number.valid.card-type-visa' : {
+          'background': 'transparent url(../../views/img/ss-saved-visa@2x.png) no-repeat right top',
+          'background-size' : '82px 86px'
+        },
+        '.card-number::-ms-clear' : {
+          'display' : 'none'
+        },
+        'input[placeholder]' : {
+          'letter-spacing' : '.5px',
+        },
       }
-    } else {
-      $(this).unbind('submit').submit(); // Do default behavior if Secure Submit isn't selected
-    }
+    });
 
-    return true;
+    hps.on("token-success", function(resp) {
+      secureSubmitResponseHandler(resp);
+    });
+
+    hps.on("token-error", function(resp) {
+      secureSubmitResponseHandler(resp);
+    });
+
+
   }
 
   function secureSubmitResponseHandler(response) {
@@ -76,9 +197,9 @@
       });
       // $form.unblock(); // This failed so it's been commented out
     } else {
-      // alert('[' + response.token_value + ']');
-      $form.append("<input type='hidden' class='securesubmitToken' name='securesubmitToken' value='" + response.token_value + "'/>");
+      $form.append("<input type='hidden' class='securesubmitToken' name='securesubmitToken' value='" + response.paymentReference + "'/>");
       $form.submit();
+      document.getElementById('securesubmit-payment-form').submit();
     }
   }
-}(jQuery));
+})(window, window.jQuery);
